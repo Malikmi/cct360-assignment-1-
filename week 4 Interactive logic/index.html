@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Last Will</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Special+Elite&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+<body>
+
+    <!-- top bar -->
+    <header id="topBar">
+        <h1>The Last Will</h1>
+        <div class="top-buttons">
+            <button id="btnCasebook">Casebook: <span id="clueCount">0</span>/10</button>
+            <button id="btnSound">Sound: off</button>
+            <button id="btnRestart">Restart</button>
+        </div>
+    </header>
+
+    <!-- shows a message when you find a clue -->
+    <p id="statusMsg">Welcome, Detective.</p>
+
+    <main>
+
+        <!-- intro -->
+        <section id="intro" class="scene active">
+            <img src="images/foyer.png">
+            <h2>Blackwood Manor, 11:48 PM</h2>
+            <div class="paper typed">
+                <p><strong>CASE FILE #1147</strong></p>
+                <p>Arthur Blackwood, 71, started his own company, Blackwood & Co., and became very wealthy. Tonight he was found dead in the study of his home, Blackwood Manor.</p>
+                <p>The police think he died of natural causes and have already left, but you are the detective on the case and you aren't so sure. The study door was locked, there was a glass next to his body, and his safe was open with half of a letter missing.</p>
+                <p>The family is staying in the house tonight because of the storm. They plan to leave at dawn, so you have until morning to find out what really happened.</p>
+                <p><strong>Who is in the house:</strong></p>
+                <ul>
+                    <li>Victoria, Arthur's daughter</li>
+                    <li>Edward, Arthur's son</li>
+                    <li>Julian, Arthur's nephew, who runs the company's accounts</li>
+                    <li>Mrs. Hale, the housekeeper</li>
+                </ul>
+                <p><strong>How it works:</strong> search the rooms for clues and question the family. Every clue you find goes into your casebook at the top of the page. Once you have 5 clues you can make an accusation. Turn the sound on if you want to hear the rain.</p>
+            </div>
+            <button id="btnBegin" class="big-btn">Enter the manor</button>
+        </section>
+
+        <!-- foyer -->
+        <section id="foyer" class="scene">
+            <h2>The Foyer</h2>
+            <p class="story" id="foyerText"></p>
+
+            <div class="room-grid">
+                <button class="room-card" id="goStudy">
+                    <img src="images/study.png">
+                    <span>The Study (crime scene)</span>
+                </button>
+                <button class="room-card" id="goBedroom">
+                    <img src="images/bedroom.png">
+                    <span>Arthur's Bedroom</span>
+                </button>
+                <button class="room-card" id="goKitchen">
+                    <img src="images/kitchen.jfif">
+                    <span>The Kitchen</span>
+                </button>
+                <button class="room-card" id="goLibrary">
+                    <img src="images/library.jfif">
+                    <span>The Library</span>
+                </button>
+                <button class="room-card" id="goDrawing">
+                    <img src="images/drawing.jfif">
+                    <span>The Drawing Room (the family)</span>
+                </button>
+            </div>
+
+            <div class="choices">
+                <button id="btnPortrait">Look at the portrait</button>
+                <button id="btnAccuse" disabled>Make an accusation (0/5 clues)</button>
+            </div>
+            <div id="portraitText" class="paper typed hidden"></div>
+        </section>
+
+        <!-- study -->
+        <section id="study" class="scene">
+            <h2>The Study</h2>
+            <img src="images/study.png">
+            <p class="story">This is where Arthur was found. His chair is pushed back from the desk and the police didn't move much before they left.</p>
+            <div class="choices">
+                <button id="clueGlass">Examine the glass</button>
+                <button id="clueSafe">Check the open safe</button>
+                <button id="clueCalendar">Read the desk calendar</button>
+            </div>
+            <div class="paper typed hidden" id="studyText"></div>
+            <button class="back-btn" id="backFromStudy">Back to the foyer</button>
+        </section>
+
+        <!-- bedroom -->
+        <section id="bedroom" class="scene">
+            <h2>Arthur's Bedroom</h2>
+            <img src="images/bedroom.png">
+            <p class="story">The bedroom is dark and quiet. Have a look around for anything that doesn't belong.</p>
+            <div class="choices">
+                <button id="clueNightstand">Open the nightstand</button>
+                <button id="clueFloor">Pick up the red thing on the floor</button>
+            </div>
+            <div class="paper typed hidden" id="bedroomText"></div>
+            <button class="back-btn" id="backFromBedroom">Back to the foyer</button>
+        </section>
+
+        <!-- kitchen -->
+        <section id="kitchen" class="scene">
+            <h2>The Kitchen</h2>
+            <img src="images/kitchen.jfif">
+            <p class="story">The stove is still warm, so someone was in here not long ago.</p>
+            <div class="choices">
+                <button id="clueKeys">Check the key board</button>
+                <button id="clueSink">Look in the sink</button>
+            </div>
+            <div class="paper typed hidden" id="kitchenText"></div>
+            <button class="back-btn" id="backFromKitchen">Back to the foyer</button>
+        </section>
+
+        <!-- library -->
+        <section id="library" class="scene">
+            <h2>The Library</h2>
+            <img src="images/library.jfif">
+            <p class="story">The fire is almost out. There is a small desk in the corner with a locked drawer.</p>
+            <div class="choices">
+                <button id="clueFire">Search the fireplace</button>
+            </div>
+            <div class="lock-box">
+                <span>The drawer has a 4-digit lock:</span>
+                <input type="text" id="drawerCode" maxlength="4" placeholder="0000">
+                <button id="btnDrawer">Try code</button>
+            </div>
+            <div class="paper typed hidden" id="libraryText"></div>
+            <button class="back-btn" id="backFromLibrary">Back to the foyer</button>
+        </section>
+
+        <!-- drawing room -->
+        <section id="drawing" class="scene">
+            <h2>The Drawing Room</h2>
+            <p class="story">The family is sitting together and nobody is talking. Who do you want to question?</p>
+            <div class="suspect-grid">
+                <button class="suspect-card" id="talkVictoria">
+                    <img src="images/victoria.jfif">
+                    <strong>Victoria</strong><span>Daughter</span>
+                </button>
+                <button class="suspect-card" id="talkEdward">
+                    <img src="images/edward.jfif">
+                    <strong>Edward</strong><span>Son</span>
+                </button>
+                <button class="suspect-card" id="talkJulian">
+                    <img src="images/julian.jfif">
+                    <strong>Julian</strong><span>Nephew, runs the company</span>
+                </button>
+                <button class="suspect-card" id="talkHale">
+                    <img src="images/hale.jfif">
+                    <strong>Mrs. Hale</strong><span>Housekeeper</span>
+                </button>
+            </div>
+            <button class="back-btn" id="backFromDrawing">Back to the foyer</button>
+        </section>
+
+        <!-- interview -->
+        <section id="interview" class="scene">
+            <img id="suspectImg" class="portrait" src="images/victoria.jfif">
+            <h2 id="suspectName"></h2>
+            <p class="story" id="suspectRole"></p>
+            <div class="paper" id="answerText"></div>
+            <div class="choices">
+                <button id="q1">Where were you tonight?</button>
+                <button id="q2">What did you expect to inherit?</button>
+                <button id="q3" class="confront"></button>
+                <button id="q4" class="confront"></button>
+            </div>
+            <button class="back-btn" id="backToDrawing">Back to the drawing room</button>
+        </section>
+
+        <!-- accusation -->
+        <section id="accuse" class="scene">
+            <h2>Who killed Arthur Blackwood?</h2>
+            <p class="story">Choose carefully. You need proof, not just a feeling.</p>
+            <div class="suspect-grid">
+                <button class="suspect-card" id="accuseVictoria">
+                    <img src="images/victoria.jfif">
+                    <strong>Victoria</strong>
+                </button>
+                <button class="suspect-card" id="accuseEdward">
+                    <img src="images/edward.jfif">
+                    <strong>Edward</strong>
+                </button>
+                <button class="suspect-card" id="accuseJulian">
+                    <img src="images/julian.jfif">
+                    <strong>Julian</strong>
+                </button>
+                <button class="suspect-card" id="accuseHale">
+                    <img src="images/hale.jfif">
+                    <strong>Mrs. Hale</strong>
+                </button>
+            </div>
+            <div class="paper typed hidden" id="accuseText"></div>
+            <button class="back-btn" id="backFromAccuse">Back to the foyer</button>
+        </section>
+
+        <!-- ending -->
+        <section id="ending" class="scene">
+            <h2>Case Closed</h2>
+            <p class="story">The police take Julian away. You put the will on the desk as the last piece of proof:</p>
+            <div class="paper will">
+                <h3>Last Will and Testament of Arthur Blackwood</h3>
+                <p>I, Arthur Blackwood, being of sound mind, revoke all previous wills.</p>
+                <p>To my daughter, <strong>Victoria</strong>, and my son, <strong>Edward</strong>: five thousand pounds each.</p>
+                <p>To my nephew, <strong>Julian Blackwood</strong>, who has run the company with such loyalty:
+                    <strong>Blackwood Manor, all my shares in Blackwood & Co., and the rest of my estate.</strong></p>
+                <p class="signature">Signed, Arthur Blackwood. Tuesday, the day before he died.</p>
+            </div>
+            <div class="paper typed">
+                <p>Arthur signed this will on Tuesday. On Wednesday he found out that Julian had stolen £400,000 from the company, so he booked his lawyer for 9 AM on Thursday to undo it.</p>
+                <p>Julian only had that one night to stop him. He carried the brandy up himself, locked the study with the spare key, burned half of Arthur's letter to the lawyer, and washed his own glass.</p>
+                <p>If Arthur made it to the meeting, Julian would lose everything. So he made sure Arthur never got there.</p>
+            </div>
+            <button id="btnPlayAgain" class="big-btn">Play again</button>
+        </section>
+
+    </main>
+
+    <!-- casebook, clues show up here once you find them -->
+    <aside id="casebook" class="hidden">
+        <h3>Casebook</h3>
+        <ul id="clueList">
+            <li>No clues yet.</li>
+        </ul>
+        <button id="btnCloseCasebook">Close</button>
+    </aside>
+
+    <audio id="rain" src="audio/rain.mp3" loop></audio>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
